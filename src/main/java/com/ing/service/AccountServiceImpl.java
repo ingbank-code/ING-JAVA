@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.ing.dto.AccountDeleteDto;
 import com.ing.dto.RequestAddAccountDto;
-import com.ing.dto.RequestDeleteDto;
 import com.ing.dto.ResponseAddedDto;
 import com.ing.entity.Account;
 import com.ing.exception.AccountNameException;
@@ -62,18 +61,18 @@ public class AccountServiceImpl implements AccountService {
 		account.setCreatedOn(requestAccount.getCreatedOn());
 		
 		
-		if(requestAccount.getIBANNumber().toString().length() <= 20)
+		if(requestAccount.getIBANNumber().length() <= 20)
 		{
 			
 			String regex = "^[a-zA-Z0-9'-]+$";
 			Pattern pattern = Pattern.compile(regex);
-			Matcher matcher = pattern.matcher(requestAccount.getAccountName().toString());
+			Matcher matcher = pattern.matcher(requestAccount.getAccountName());
 			if(matcher.matches())
 			{
 				
-				Account accountEdited = accountRepository.save(account);				
+				accountRepository.save(account);				
 				
-				if(accountEdited != null)
+				if(account.getAccountName() != null)
 				{
 					response.setMessage("Edited successfully");
 					response.setStatus("SUCCESS");

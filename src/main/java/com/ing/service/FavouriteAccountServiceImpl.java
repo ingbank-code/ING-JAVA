@@ -37,7 +37,7 @@ public class FavouriteAccountServiceImpl implements FavouriteAccountService{
 		
 		 String regex = "^[a-zA-Z0-9'-]+$";
          Pattern pattern = Pattern.compile(regex);
-         Matcher matcher = pattern.matcher(favReqDto.getAccountName().toString());
+         Matcher matcher = pattern.matcher(favReqDto.getAccountName());
 		if(favReqDto.getAccountNumber().length() <= 20 && matcher.matches() ) {
 		
 		Account account =new Account();
@@ -55,9 +55,11 @@ public class FavouriteAccountServiceImpl implements FavouriteAccountService{
 		String body = "Account name:"+favReqDto.getAccountName()+"\n"+"Account number:"
 		+favReqDto.getAccountNumber()+"\n"+"Bank name:"+favReqDto.getBankName();
 		String subject = "Your favourite accounts list has been updated";
-		String email = customer.get().getEmail();
-		mailWithOTPService.sendEmail(email, subject, body);
-		
+		if(customer.isPresent())
+		{
+			String email = customer.get().getEmail();
+			mailWithOTPService.sendEmail(email, subject, body);
+		}
 		return resDto;
 	}
 	else
