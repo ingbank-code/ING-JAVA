@@ -32,4 +32,30 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		errorResponse.setStatus("FAILURE");
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(AccountNameException.class)
+	public ResponseEntity<ErrorResponse> globalExceptionHandler(AccountNameException exception, WebRequest request) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		errorResponse.setStatus("FAILURE");
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(AccountNumberException.class)
+	public ResponseEntity<ErrorResponse> globalExceptionHandler(AccountNumberException exception, WebRequest request) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		errorResponse.setStatus("FAILURE");
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(DeleteException.class)
+	public ResponseEntity<ErrorResponse> globalExceptionHandler(DeleteException exception, WebRequest request) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage(exception.getMessage());
+		errorResponse.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		errorResponse.setStatus("FAILURE");
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
 }

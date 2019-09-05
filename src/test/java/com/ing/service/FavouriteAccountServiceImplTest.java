@@ -19,6 +19,7 @@ import com.ing.entity.Account;
 import com.ing.entity.Customer;
 import com.ing.repository.AccountRepository;
 import com.ing.repository.CustomerRepository;
+import com.ing.util.MailWithOTPService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FavouriteAccountServiceImplTest {
@@ -30,6 +31,8 @@ public class FavouriteAccountServiceImplTest {
 	AccountRepository accountRepository;
 	@Mock
 	CustomerRepository customerRepository;
+	@Mock
+	MailWithOTPService mailWithOTPService;
 
 	@Test
 	public void addFavAccountTest() {
@@ -47,7 +50,13 @@ public class FavouriteAccountServiceImplTest {
 		Customer customer=new Customer();
 		customer.setCustomerId(req.getCustomerId());
 		BeanUtils.copyProperties(req, account);
+		
+		String body = "Account name:";
+		String email ="dhanashekara123@gmail.com";
+		String subject = "asdasd";
 
+		Mockito.doNothing().when(mailWithOTPService).sendEmail(email, subject, body);
+		
 		Mockito.when(accountRepository.save(account)).thenReturn(account);
 		Mockito.when(customerRepository.findByCustomerId(req.getCustomerId())).thenReturn(Optional.of(customer));
 		AddFavResDto actResult = favouriteAccountServiceImpl.addFavAccount(req);
